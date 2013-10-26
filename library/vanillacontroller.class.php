@@ -6,8 +6,8 @@ class VanillaController {
 	protected $_action;
 	protected $_template;
 
-	public $doNotRenderHeader;
-	public $render;
+	public $showLayout = true;
+	public $show = true;
 
 	function __construct($controller, $action) {
 		
@@ -15,11 +15,6 @@ class VanillaController {
 
 		$this->_controller = ucfirst($controller);
 		$this->_action = $action;
-		
-		$model = ucfirst($inflect->singularize($controller));
-		$this->doNotRenderHeader = 0;
-		$this->render = 1;
-		$this->$model =new $model;
 		$this->_template =new Template($controller,$action);
 
 	}
@@ -29,8 +24,8 @@ class VanillaController {
 	}
 
 	function __destruct() {
-		if ($this->render) {
-			$this->_template->render($this->doNotRenderHeader);
+		if ($this->show) {
+			$this->_template->render($this->showLayout);
 		}
 	}
 		
