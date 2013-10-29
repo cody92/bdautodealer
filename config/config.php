@@ -10,7 +10,7 @@ define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('DB_HOST', 'localhost');
 
-define('BASE_PATH','auto-dealer.lh');
+define('BASE_PATH','http://bd.lh/');
 
 
 define('PAGINATE_LIMIT', '10');

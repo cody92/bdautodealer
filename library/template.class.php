@@ -7,6 +7,7 @@ class Template
     protected $_controller;
     protected $_action;
     protected $layoutName = 'layout';
+    protected $title = 'BD Auto Dealer';
 
     function __construct($controller, $action)
     {
@@ -45,6 +46,21 @@ class Template
             include (ROOT . DS . 'application' . DS . 'views' . DS . $this->_controller . DS . $this->_action . '.php');
         }
         return ob_get_clean();
+    }
+
+    public function getBasePath()
+    {
+        return BASE_PATH;
+    }
+
+    public function setPageTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    public function url($url)
+    {
+        return $this->getBasePath() . $url;
     }
 
 }
