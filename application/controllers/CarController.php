@@ -31,11 +31,13 @@ class CarController extends VanillaController
 
         if (isset($_POST['add'])) {
             $result = $this->validateData($_POST);
-            if ($result) {
-                
+            if (count($result)) {
+                $this->set('errors', $result);
             } else {
                 
             }
+            
+                
         }
     }
 
@@ -44,8 +46,13 @@ class CarController extends VanillaController
         $errors = array();
         if(!$this->validateInput($data['nume_marca']))
         {
-            
+            $errors['nume_marca'][] = 'Campul "Nume marca" nu poate fi gol';
         }
+        if(!$this->validateInput($data['descriere_marca']))
+        {
+            $errors['descriere_marca'][] = 'Campul Descriere marca nu poate fi gol';
+        }
+        return $errors;
     }
     
     public function getMarca($marcaName)
