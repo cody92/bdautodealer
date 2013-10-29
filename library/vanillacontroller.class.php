@@ -9,12 +9,14 @@ class VanillaController
     protected $showLayout = true;
     protected $title = 'BD Auto Dealer';
     public $show = true;
+    public $db;
 
     function __construct($controller, $action)
     {
 
         global $inflect;
-
+        $this->db = new MySqlAdapter();
+        $this->db->connect();
         $this->_controller = ucfirst($controller);
         $this->_action = $action;
         $this->_template = new Template($controller, $action);
@@ -31,6 +33,7 @@ class VanillaController
         if ($this->show) {
             $this->_template->render($this->showLayout);
         }
+        $this->db->disconnect();
     }
 
     public function validateInput($input)
