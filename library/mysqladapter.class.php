@@ -3,37 +3,14 @@
 class MySqlAdapter
 {
 
-    public $_dbHandle;
-
     /** Connects to database * */
-    function connect()
+    static function connect()
     {
-        $this->_dbHandle = @mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-        if ($this->_dbHandle != 0) {
-            if (mysql_select_db(DB_NAME, $this->_dbHandle)) {
-                return 1;
-            } else {
-                return 0;
-            }
-        } else {
-            return 0;
-        }
-    }
-
-    /** Disconnects from database * */
-    function disconnect()
-    {
-        if (@mysql_close($this->_dbHandle) != 0) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    /** Get error string * */
-    function getError()
-    {
-        return mysql_error($this->_dbHandle);
+        return new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8', DB_USER, DB_PASSWORD, 
+            array(
+            PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
+        );
     }
 
 }

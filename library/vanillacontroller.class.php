@@ -15,8 +15,7 @@ class VanillaController
     {
 
         global $inflect;
-        $this->db = new MySqlAdapter();
-        $this->db->connect();
+        $this->db = MySqlAdapter::connect();
         $this->_controller = ucfirst($controller);
         $this->_action = $action;
         $this->_template = new Template($controller, $action);
@@ -33,7 +32,7 @@ class VanillaController
         if ($this->show) {
             $this->_template->render($this->showLayout);
         }
-        $this->db->disconnect();
+        $this->db = null;
     }
 
     public function validateInput($input)
@@ -45,6 +44,12 @@ class VanillaController
             return false;
         }
         return true;
+    }
+
+    public function redirect($url)
+    {
+        header('Location: ' . $this->_template->url($url));
+        exit;
     }
 
 }

@@ -11,7 +11,8 @@
                     <div class="control-group <?php if(isset($errors['nume_marca'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Nume marca*:</label>
                         <div class="controls">
-                            <input class="input-xlarge focused" id="nume_marca" name="nume_marca" type="text" value="">
+                            <input class="input-xlarge focused" id="nume_marca" name="nume_marca" type="text" 
+                                   value="<?php if(isset($data['nume_marca']) && !empty($data['nume_marca'])) { echo $data['nume_marca'];} ?>">
                             <?php if(isset($errors['nume_marca'])) : ?>
                             <span class="help-inline">
                                 <?php echo implode(',', $errors['nume_marca']); ?>
@@ -29,7 +30,12 @@
                     <div class="control-group <?php if(isset($errors['descriere_marca'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="textarea2">Descriere marca*:</label>
                         <div class="controls">
-                            <textarea class="cleditor" id="descriere_marca" name="descriere_marca" rows="3"></textarea>
+                            <textarea class="cleditor" id="descriere_marca" name="descriere_marca" rows="3">
+                                <?php if(isset($data['descriere_marca']) && !empty($data['descriere_marca'])) { 
+                                    echo $data['descriere_marca'];
+                                    
+                                } ?>
+                            </textarea>
                             <?php if(isset($errors['descriere_marca'])) : ?>
                             <span class="help-inline">
                                 <?php echo implode(',', $errors['descriere_marca']); ?>
