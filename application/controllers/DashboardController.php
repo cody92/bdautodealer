@@ -22,6 +22,12 @@ class DashboardController extends VanillaController
                 'tooltip-text' => 'Adauga marca noua',
                 'link' => 'car/adaugaMarca'
             ),
+            array(
+                'css-icon' => 'icon-square-plus',
+                'head-title' => 'Lista Marci Auto',
+                'tooltip-text' => 'Lista Marci Auto',
+                'link' => 'car/autoList'
+            ),
         );
         $this->set('items', $dashboardItems);
     }
