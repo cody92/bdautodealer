@@ -14,25 +14,26 @@
                 </tr>
             </thead>   
             <tbody>
+            <?php foreach ($data as $id => $auto)  : ?>
                 <tr>
-                    <td>David R</td>
-                    <td class="center">2012/01/01</td>
-                    <td class="center">Member</td>
+                    <td><?php echo $auto['name']; ?></td>
+                    <td class="center"><?php echo $auto['description']; ?></td>
                     <td class="center">
-                        <a class="btn btn-success" href="#">
+                        <a class="btn-mini btn-success" href="/model/add?carId=<?php echo $auto['id']; ?>">
                             <i class="icon-zoom-in icon-white"></i>  
-                            View                                            
+                            Adauga model                                            
                         </a>
-                        <a class="btn btn-info" href="#">
+                        <a class="btn-mini btn-info" href="/model/list?carId=<?php echo $auto['id']; ?>">
                             <i class="icon-edit icon-white"></i>  
-                            Edit                                            
+                            Vezi modele                                           
                         </a>
-                        <a class="btn btn-danger" href="#">
+                        <a class="btn-mini btn-danger" href="/car/edit?carId=<?php echo $auto['id']; ?>">
                             <i class="icon-trash icon-white"></i> 
-                            Delete
+                            Editeaza marca
                         </a>
                     </td>
                 </tr>
+            <?php endforeach; ?>
                 
                 
             </tbody>

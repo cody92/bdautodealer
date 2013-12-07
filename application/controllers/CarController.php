@@ -40,7 +40,7 @@ class CarController extends VanillaController
                 $stmt->execute(array($_POST['nume_marca'], $_POST['descriere_marca']));
                 $result = $stmt->rowCount();
                 if ($result) {
-                    $this->redirect('car/listAuto');
+                    $this->redirect('car/autoList');
                 }
             }
         }
