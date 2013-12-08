@@ -5,12 +5,12 @@ class DashboardController extends VanillaController
 
     function beforeAction()
     {
-        
+
     }
 
     function view($categoryId = null)
     {
-        
+
     }
 
     function index()
@@ -28,13 +28,19 @@ class DashboardController extends VanillaController
                 'tooltip-text' => 'Lista Marci Auto',
                 'link' => 'car/autoList'
             ),
+            array(
+                'css-icon' => 'icon-square-plus',
+                'head-title' => 'Lista Modele Auto',
+                'tooltip-text' => 'Lista Modele Auto',
+                'link' => 'model/listModels'
+            ),
         );
         $this->set('items', $dashboardItems);
     }
 
     function afterAction()
     {
-        
+
     }
 
 }
