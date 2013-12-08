@@ -24,7 +24,7 @@ class EngineController extends VanillaController
 
     }
 
-    public function add($command = null, $value = null)
+    public function add()
     {
 
         if (isset($_POST['add'])) {
@@ -87,25 +87,17 @@ class EngineController extends VanillaController
         return $errors;
     }
 
-    public function listModels($var = null, $carId = null)
+    public function listEngine()
     {
-        if (!($carId && is_numeric($carId))) {
-            $carId = null;
-        }
-        $sql = "SELECT m.*, a.name as numeMarca FROM model AS m INNER JOIN auto AS a ON m.autoId = a.id";
+        $sql = "SELECT * FROM engine ORDER BY name ASC";
 
-        if ($carId) {
-            $sql .= " WHERE m.autoId = ? ";
-        }
-        $sql .= " ORDER BY m.name ASC";
         $stmt = $this->db->prepare($sql);
-        if ($carId) {
-            $stmt->execute(array($carId));
-        } else {
-            $stmt->execute();
-        }
+
+        $stmt->execute();
+
         $result = $stmt->fetchAll();
         $this->set('data', $result);
+        $this->set('type', $this->listEngineType());
     }
 
     public function listEngineType()
