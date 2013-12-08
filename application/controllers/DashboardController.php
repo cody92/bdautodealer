@@ -34,6 +34,18 @@ class DashboardController extends VanillaController
                 'tooltip-text' => 'Lista Modele Auto',
                 'link' => 'model/listModels'
             ),
+            array(
+                'css-icon' => 'icon-square-plus',
+                'head-title' => 'Adauga motorizare',
+                'tooltip-text' => 'Adauga motorizare',
+                'link' => 'engine/add'
+            ),
+            array(
+                'css-icon' => 'icon-square-plus',
+                'head-title' => 'Listare motorizari',
+                'tooltip-text' => 'Listare motorizari',
+                'link' => 'engine/listEngine'
+            ),
         );
         $this->set('items', $dashboardItems);
     }

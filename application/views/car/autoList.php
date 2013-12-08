@@ -19,7 +19,7 @@
                         <td><?php echo $auto['name']; ?></td>
                         <td class="center"><?php echo $auto['description']; ?></td>
                         <td class="center">
-                            <a class="btn-mini btn-success" href="/model/add/carId/<?php echo $auto['id']; ?>">
+                            <a class="btn-mini btn-success" href="/model/add/carId/<?php echo $auto['id']; ?>" >
                                 <i class="icon-add icon-white"></i>
                                 Adauga model
                             </a>
