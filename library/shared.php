@@ -78,8 +78,8 @@ function callHook()
     $queryString = array();
 
     if (!isset($url)) {
-        $controller = $default['controller'];
-        $action = $default['action'];
+        $controller = 'dashboard';
+        $action = 'index';
     } else {
         $url = routeURL($url);
         $urlArray = array();
@@ -90,7 +90,7 @@ function callHook()
             $action = $urlArray[0];
             array_shift($urlArray);
         } else {
-            $action = 'index'; // Default Action
+            $action = $default['action']; // Default Action
         }
         $queryString = $urlArray;
     }
