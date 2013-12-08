@@ -20,7 +20,7 @@ class ModelController extends VanillaController
 
     public function add($command = null, $value = null)
     {
-//logo upload is not implemented yet
+        //logo upload is not implemented yet
         if (isset($_POST['add'])) {
             $result = $this->validateData($_POST);
             if (count($result)) {
