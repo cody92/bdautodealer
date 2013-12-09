@@ -20,7 +20,7 @@
                         <td class="center"><?php echo $auto['description']; ?></td>
                         <td class="center"><?php echo $auto['numeMarca']; ?></td>
                         <td class="center">
-                            <a class="btn-mini btn-danger" href="/model/edit/modelId/<?php echo $auto['id']; ?>">
+                            <a class="btn-mini btn-danger" href="/model/edit/<?php echo $auto['id']; ?>">
                                 <i class="icon-edit icon-white"></i>
                                 Editeaza model
                             </a>

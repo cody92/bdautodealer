@@ -92,4 +92,58 @@ class ModelController extends VanillaController
         $this->set('data', $result);
     }
 
+    public function edit($id)
+    {
+        if (!is_numeric($id)) {
+            $this->redirect('model/listModels');
+        } else {
+            $this->set('id', $id);
+
+
+            if (isset($_POST['add'])) {
+                $result = $this->validateEditData($_POST);
+                if (count($result)) {
+                    $this->set('errors', $result);
+                    $this->set('data', $_POST);
+                } else {
+                    $sql = "UPDATE engine SET "
+                        . "name = ?, description = ?, releaseYear = ? "
+                        . "WHERE id = ?;";
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->execute(
+                        array(
+                            $_POST['name'], $_POST['description'],
+                            $_POST['releaseYear'], $id
+                        )
+                    );
+                    $result = $stmt->rowCount();
+                    if ($result) {
+                        $this->redirect('model/edit/' . $id);
+                    }
+                }
+            } else {
+                $sql = "SELECT * FROM model WHERE id = ?";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute(array($id));
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                $this->set('data', $result);
+            }
+        }
+    }
+
+    private function validateEditData($data)
+    {
+        $errors = array();
+        if (!$this->validateInput($data['name'])) {
+            $errors['name'][] = 'Campul "Nume model" nu poate fi gol';
+        }
+        if (!$this->validateInput($data['description'])) {
+            $errors['description'][] = 'Campul Descriere nu poate fi gol';
+        }
+        if (!$this->validateInput($data['releaseYear'])) {
+            $errors['releaseYear'][] = 'Campul An lansare nu poate fi gol';
+        }
+        return $errors;
+    }
+
 }
