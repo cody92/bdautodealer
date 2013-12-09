@@ -28,7 +28,7 @@
                             Mediu: <?php echo $engine['fuelAverage']; ?> <br />
                         </td>
                         <td class="center">
-                            <a class="btn-mini btn-danger" href="/engine/edit/engineId/<?php echo $engine['id']; ?>">
+                            <a class="btn-mini btn-danger" href="/engine/edit/<?php echo $engine['id']; ?>">
                                 <i class="icon-edit icon-white"></i>
                                 Editeaza motorizare
                             </a>

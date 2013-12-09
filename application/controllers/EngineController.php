@@ -63,6 +63,50 @@ class EngineController extends VanillaController
         $this->set('carId', $value);
     }
 
+    public function edit($id)
+    {
+        if (!is_numeric($id)) {
+            $this->redirect('engine/listEngine');
+        } else {
+            $this->set('id', $id);
+
+
+            if (isset($_POST['add'])) {
+                $result = $this->validateEditData($_POST);
+                if (count($result)) {
+                    $this->set('errors', $result);
+                    $this->set('data', $_POST);
+                } else {
+                    $sql = "UPDATE engine SET "
+                        . "name = ?, type = ?, capacity = ?,"
+                        . "horsePower = ?, fuelAverage = ?,"
+                        . "fuelUrban = ?, fuelExtra = ? "
+                        . "WHERE id = ?;";
+                    $stmt = $this->db->prepare($sql);
+                    $stmt->execute(
+                        array(
+                            $_POST['name'], $_POST['type'],
+                            $_POST['capacity'], $_POST['horsePower'],
+                            $_POST['fuelAverage'], $_POST['fuelUrban'],
+                            $_POST['fuelExtra'], $id
+                        )
+                    );
+                    $result = $stmt->rowCount();
+                    if ($result) {
+                        $this->redirect('engine/edit/' . $id);
+                    }
+                }
+            } else {
+                $sql = "SELECT * FROM engine WHERE id = ?";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute(array($id));
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                $this->set('data', $result);
+                $this->set('types', $this->listEngineType());
+            }
+        }
+    }
+
     private function validateData($data)
     {
         $errors = array();
@@ -83,6 +127,30 @@ class EngineController extends VanillaController
         }
         if (!$this->validateInput($data['engine_urban'])) {
             $errors['engine_urban'][] = 'Campul Consum urban nu poate fi gol';
+        }
+        return $errors;
+    }
+
+    private function validateEditData($data)
+    {
+        $errors = array();
+        if (!$this->validateInput($data['name'])) {
+            $errors['name'][] = 'Campul "Nume motrizare" nu poate fi gol';
+        }
+        if (!$this->validateInput($data['type'])) {
+            $errors['type'][] = 'Campul Tip model nu poate fi gol';
+        }
+        if (!$this->validateInput($data['capacity'])) {
+            $errors['capacity'][] = 'Campul Capacitate nu poate fi gol';
+        }
+        if (!$this->validateInput($data['fuelAverage'])) {
+            $errors['fuelAverage'][] = 'Campul Consum mediu nu poate fi gol';
+        }
+        if (!$this->validateInput($data['fuelExtra'])) {
+            $errors['fuelExtra'][] = 'Campul Consum extra-urban nu poate fi gol';
+        }
+        if (!$this->validateInput($data['fuelUrban'])) {
+            $errors['fuelUrban'][] = 'Campul Consum urban nu poate fi gol';
         }
         return $errors;
     }
