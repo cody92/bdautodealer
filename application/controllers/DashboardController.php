@@ -30,6 +30,12 @@ class DashboardController extends VanillaController
             ),
             array(
                 'css-icon' => 'icon-square-plus',
+                'head-title' => 'Adauga Model',
+                'tooltip-text' => 'Adauga Model',
+                'link' => 'model/add'
+            ),
+            array(
+                'css-icon' => 'icon-square-plus',
                 'head-title' => 'Lista Modele Auto',
                 'tooltip-text' => 'Lista Modele Auto',
                 'link' => 'model/listModels'
