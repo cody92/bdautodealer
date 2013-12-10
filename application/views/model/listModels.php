@@ -24,6 +24,10 @@
                                 <i class="icon-edit icon-white"></i>
                                 Editeaza model
                             </a>
+                            <a class="btn-mini btn-success" href="/auto/add/<?php echo $auto['id']; ?>">
+                                <i class="icon-edit icon-white"></i>
+                                Adauga masina
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
