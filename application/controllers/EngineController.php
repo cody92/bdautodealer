@@ -111,7 +111,7 @@ class EngineController extends VanillaController
     {
         $errors = array();
         if (!$this->validateInput($data['engine_name'])) {
-            $errors['engine_name'][] = 'Campul "Nume motrizare" nu poate fi gol';
+            $errors['engine_name'][] = 'Campul "Nume motorizare" nu poate fi gol';
         }
         if (!$this->validateInput($data['engine_type'])) {
             $errors['engine_type'][] = 'Campul Tip model nu poate fi gol';
