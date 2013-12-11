@@ -136,4 +136,19 @@ class ModelController extends VanillaController
         }
     }
 
+    public function listAuto($id)
+    {
+        if (!($id && is_numeric($id))) {
+            $this->redirect('dashboard/index');
+        }
+
+        $sql = "SELECT * FROM auto_version WHERE modelId = ?";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute(array($id));
+
+        $result = $stmt->fetchAll();
+        $this->set('data', $result);
+    }
+
 }
