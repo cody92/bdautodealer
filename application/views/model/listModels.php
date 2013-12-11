@@ -28,6 +28,10 @@
                                 <i class="icon-edit icon-white"></i>
                                 Adauga masina
                             </a>
+                            <a class="btn-mini btn-success" href="/model/listAuto/<?php echo $auto['id']; ?>">
+                                <i class="icon-list icon-white"></i>
+                                Lista masini
+                            </a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

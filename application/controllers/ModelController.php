@@ -3,6 +3,18 @@
 class ModelController extends VanillaController
 {
 
+    private $addValidateFields = array(
+        'name' => 'Nume model',
+        'description' => 'Greutate',
+        'releaseYear' => 'An',
+        'carId' => 'Marca',
+    );
+    private $editValidateFields = array(
+        'name' => 'Nume model',
+        'description' => 'Greutate',
+        'year' => 'An',
+    );
+
     function beforeAction()
     {
 
@@ -22,7 +34,7 @@ class ModelController extends VanillaController
     {
         //logo upload is not implemented yet
         if (isset($_POST['add'])) {
-            $result = $this->validateData($_POST);
+            $result = $this->validateData($_POST, $this->addValidateFields);
             if (count($result)) {
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
@@ -31,8 +43,8 @@ class ModelController extends VanillaController
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute(
                     array(
-                        $_POST['carId'], $_POST['nume_model'],
-                        $_POST['descriere_model'], date('Y', strtotime($_POST['year']))
+                        $_POST['carId'], $_POST['name'],
+                        $_POST['description'], date('Y', strtotime($_POST['releaseYear']))
                     )
                 );
                 $result = $stmt->rowCount();
@@ -53,20 +65,13 @@ class ModelController extends VanillaController
         $this->set('carId', $value);
     }
 
-    private function validateData($data)
+    private function validateData($data, $columns)
     {
         $errors = array();
-        if (!$this->validateInput($data['nume_model'])) {
-            $errors['nume_model'][] = 'Campul "Nume model" nu poate fi gol';
-        }
-        if (!$this->validateInput($data['descriere_model'])) {
-            $errors['descriere_model'][] = 'Campul Descriere model nu poate fi gol';
-        }
-        if (!$this->validateInput($data['year'])) {
-            $errors['year'][] = 'Campul An nu poate fi gol';
-        }
-        if (!$this->validateInput($data['carId'])) {
-            $errors['carId'][] = 'Campul Marca nu poate fi gol';
+        foreach ($columns as $columnName => $columnLabel) {
+            if (!$this->validateInput($data[$columnName])) {
+                $errors[$columnName][] = "Campul \"$columnLabel\" nu poate fi gol";
+            }
         }
         return $errors;
     }
@@ -101,7 +106,7 @@ class ModelController extends VanillaController
 
 
             if (isset($_POST['add'])) {
-                $result = $this->validateEditData($_POST);
+                $result = $this->validateData($_POST, $this->editValidateFields);
                 if (count($result)) {
                     $this->set('errors', $result);
                     $this->set('data', $_POST);
@@ -129,21 +134,6 @@ class ModelController extends VanillaController
                 $this->set('data', $result);
             }
         }
-    }
-
-    private function validateEditData($data)
-    {
-        $errors = array();
-        if (!$this->validateInput($data['name'])) {
-            $errors['name'][] = 'Campul "Nume model" nu poate fi gol';
-        }
-        if (!$this->validateInput($data['description'])) {
-            $errors['description'][] = 'Campul Descriere nu poate fi gol';
-        }
-        if (!$this->validateInput($data['releaseYear'])) {
-            $errors['releaseYear'][] = 'Campul An lansare nu poate fi gol';
-        }
-        return $errors;
     }
 
 }

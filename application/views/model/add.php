@@ -8,33 +8,35 @@
         <div class="box-content">
             <form class="form-horizontal" method="post" action="<?php echo $this->url('model/add' . ($carId ? ('/carId/' . $carId) : '')); ?>">
                 <fieldset>
-                    <div class="control-group <?php if (isset($errors['nume_model'])) : ?>error <?php endif; ?>">
+                    <div class="control-group <?php if (isset($errors['name'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Nume model*:</label>
                         <div class="controls">
-                            <input class="input-xlarge focused" id="nume_model" name="nume_model" type="text"
+                            <input class="input-xlarge focused" id="name" name="name" type="text"
                                    value="<?php
-                                   if (isset($data['nume_model']) && !empty($data['nume_model'])) {
-                                       echo $data['nume_model'];
+                                   if (isset($data['name']) && !empty($data['name'])) {
+                                       echo $data['name'];
                                    }
                                    ?>">
-                                   <?php if (isset($errors['nume_model'])) : ?>
+                                   <?php if (isset($errors['name'])) : ?>
+                                <br />
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['nume_model']); ?>
+                                    <?php echo implode(',', $errors['name']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="control-group <?php if (isset($errors['year'])) : ?>error<?php endif; ?>">
-                        <label class="control-label " for="year">An*:</label>
+                    <div class="control-group <?php if (isset($errors['releaseYear'])) : ?>error<?php endif; ?>">
+                        <label class="control-label " for="releaseYear">An*:</label>
                         <div class="controls">
-                            <input type="text" name="year" class="input-xlarge datepicker" id="year" value="<?php
-                            if (isset($data['year']) && !empty($data['year'])) {
-                                echo $data['year'];
+                            <input type="text" name="releaseYear" class="input-xlarge datepicker" id="releaseYear" value="<?php
+                            if (isset($data['releaseYear']) && !empty($data['releaseYear'])) {
+                                echo $data['releaseYear'];
                             }
                             ?>">
-                                   <?php if (isset($errors['year'])) : ?>
+                                   <?php if (isset($errors['releaseYear'])) : ?>
+                                <br />
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['year']); ?>
+                                    <?php echo implode(',', $errors['releaseYear']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
@@ -54,19 +56,20 @@
                     <?php else : ?>
                         <input type="hidden" value="<?php echo $carId; ?>" name="carId" />
                     <?php endif; ?>
-                    <div class="control-group <?php if (isset($errors['descriere_model'])) : ?>error <?php endif; ?>">
+                    <div class="control-group <?php if (isset($errors['description'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="textarea2">Descriere model*:</label>
                         <div class="controls">
-                            <textarea class="cleditor" id="descriere_model" name="descriere_model" rows="3">
+                            <textarea class="cleditor" id="description" name="description" rows="3">
                                 <?php
-                                if (isset($data['descriere_model']) && !empty($data['descriere_model'])) {
-                                    echo $data['descriere_model'];
+                                if (isset($data['description']) && !empty($data['description'])) {
+                                    echo $data['description'];
                                 }
                                 ?>
                             </textarea>
-                            <?php if (isset($errors['descriere_model'])) : ?>
+                            <?php if (isset($errors['description'])) : ?>
+                                <br />
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['descriere_model']); ?>
+                                    <?php echo implode(',', $errors['description']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
