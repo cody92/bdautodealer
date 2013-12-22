@@ -12,17 +12,17 @@ class AutoController extends VanillaController
         'doorsNumber' => 'Numar usi',
     );
 
-    function index()
+    public function index()
     {
         $this->redirect('dashboard/index');
     }
 
-    function beforeAction()
+    public function beforeAction()
     {
 
     }
 
-    function afterAction()
+    public function afterAction()
     {
 
     }
@@ -70,14 +70,15 @@ class AutoController extends VanillaController
             $this->redirect('dashboard/index');
             return 0;
         }
+
         if (isset($_POST['add'])) {
             $result = $this->validateData($_POST, $this->addValidateFields);
             if (count($result)) {
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
             } else {
-                $sql = "INSERT INTO auto_version (`name`, `engineId`, `weight`, `seatsNumber`, `doorsNumber`, "
-                    . "`price`, `modelId`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $sql = "UPDATE auto_version SET name = ?, engineId = ?, weight = ?, seatsNumber = ?, doorsNumber = ?"
+                    . " price = ? WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute(
                     array(

@@ -3,12 +3,17 @@
 class CarController extends VanillaController
 {
 
-    function beforeAction()
+    private $addValidateFields = array(
+        'name' => 'Nume marca',
+        'description' => 'Descriere marca',
+    );
+
+    public function beforeAction()
     {
-        
+
     }
 
-    function index()
+    public function index()
     {
         $dashboardItems = array(
             array(
@@ -21,23 +26,23 @@ class CarController extends VanillaController
         $this->set('items', $dashboardItems);
     }
 
-    function afterAction()
+    public function afterAction()
     {
-        
+
     }
 
     public function adaugaMarca()
     {
         //logo upload is not implemented yet
         if (isset($_POST['add'])) {
-            $result = $this->validateData($_POST);
+            $result = $this->validateData($_POST, $this->addValidateFields);
             if (count($result)) {
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
             } else {
                 $sql = "INSERT INTO auto (`name`, `description`) VALUES (?, ?)";
                 $stmt = $this->db->prepare($sql);
-                $stmt->execute(array($_POST['nume_marca'], $_POST['descriere_marca']));
+                $stmt->execute(array($_POST['name'], $_POST['description']));
                 $result = $stmt->rowCount();
                 if ($result) {
                     $this->redirect('car/autoList');
@@ -46,14 +51,48 @@ class CarController extends VanillaController
         }
     }
 
-    private function validateData($data)
+    public function edit($id = null)
+    {
+        if (!$id && !is_numeric($id)) {
+            $this->redirect('dashboard/index');
+            return 0;
+        }
+        if (isset($_POST['add'])) {
+            $result = $this->validateData($_POST, $this->addValidateFields);
+            if (count($result)) {
+                $this->set('errors', $result);
+                $this->set('data', $_POST);
+            } else {
+                $sql = "UPDATE auto SET name = ?, description = ? WHERE id = ?";
+                $stmt = $this->db->prepare($sql);
+                $stmt->execute(
+                    array(
+                        $_POST['name'], $_POST['description'],
+                        $id
+                    )
+                );
+                $result = $stmt->rowCount();
+                if ($result) {
+                    $this->redirect('car/autoList');
+                }
+            }
+        } else {
+            $sql = "SELECT * FROM auto WHERE id = ?";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(array($id));
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $this->set('data', $result);
+            $this->set('id', $id);
+        }
+    }
+
+    private function validateData($data, $columns)
     {
         $errors = array();
-        if (!$this->validateInput($data['nume_marca'])) {
-            $errors['nume_marca'][] = 'Campul "Nume marca" nu poate fi gol';
-        }
-        if (!$this->validateInput($data['descriere_marca'])) {
-            $errors['descriere_marca'][] = 'Campul Descriere marca nu poate fi gol';
+        foreach ($columns as $columnName => $columnLabel) {
+            if (!$this->validateInput($data[$columnName])) {
+                $errors[$columnName][] = "Campul \"$columnLabel\" nu poate fi gol";
+            }
         }
         if (!count($errors)) {
             $sql = "SELECT name FROM auto WHERE name = ?";
@@ -67,18 +106,17 @@ class CarController extends VanillaController
         return $errors;
     }
 
-    public function getMarca($marcaName)
-    {
-        
-    }
-    
     public function autoList()
     {
-        $sql = "SELECT * FROM auto ORDER BY name ASC";
+        $sql = "SELECT a.*, COUNT(m.autoId) as totalModels "
+            . "FROM auto AS a "
+            . "LEFT JOIN model as M ON a.id = m.autoId "
+            . "GROUP BY a.id "
+            . "ORDER BY name ASC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll();
-        $this->set('data',$result);
+        $this->set('data', $result);
     }
 
 }

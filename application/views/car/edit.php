@@ -6,7 +6,7 @@
 
         </div>
         <div class="box-content">
-            <form class="form-horizontal" method="post" action="<?php echo $this->url('car/adaugaMarca'); ?>">
+            <form class="form-horizontal" method="post" action="<?php echo $this->url('car/edit/' . $id); ?>">
                 <fieldset>
                     <div class="control-group <?php if (isset($errors['name'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Nume marca*:</label>
