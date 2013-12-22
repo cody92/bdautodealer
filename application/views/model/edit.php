@@ -26,13 +26,25 @@
                     <div class="control-group <?php if (isset($errors['releaseYear'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">An lansare*:</label>
                         <div class="controls">
-                            <input class="input-xlarge focused" id="releaseYear" name="releaseYear" type="text"
-                                   value="<?php
-                                   if (isset($data['releaseYear']) && !empty($data['releaseYear'])) {
-                                       echo $data['releaseYear'];
-                                   }
-                                   ?>" required />
-                                   <?php if (isset($errors['releaseYear'])) : ?>
+                            <select id="releaseYear" name="releaseYear" data-rel="chosen">
+                                <option ></option>
+                                <?php
+                                for ($year = 1950; $year < 2030; $year++) :
+                                    ?>
+                                    <option
+                                    <?php
+                                    if (
+                                        isset($data['releaseYear']) && !empty($data['releaseYear']) && $data['releaseYear'] == $year
+                                    ) {
+                                        echo "selected";
+                                    }
+                                    ?>
+
+                                        value="<?php echo $year; ?>"><?php echo $year; ?></option>
+                                    <?php endfor; ?>
+
+                            </select>
+                            <?php if (isset($errors['releaseYear'])) : ?>
                                 <span class="help-inline">
                                     <?php echo implode(',', $errors['releaseYear']); ?>
                                 </span>

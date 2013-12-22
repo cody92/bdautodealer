@@ -5,7 +5,7 @@ class ModelController extends VanillaController
 
     private $addValidateFields = array(
         'name' => 'Nume model',
-        'description' => 'Greutate',
+        'description' => 'Descriere Marca',
         'releaseYear' => 'An',
         'carId' => 'Marca',
     );
@@ -15,22 +15,22 @@ class ModelController extends VanillaController
         'year' => 'An',
     );
 
-    function beforeAction()
+    public function beforeAction()
     {
 
     }
 
-    function index()
+    public function index()
     {
         $this->redirect('dashboard/index');
     }
 
-    function afterAction()
+    public function afterAction()
     {
 
     }
 
-    public function add($command = null, $value = null)
+    public function add($id = null)
     {
         //logo upload is not implemented yet
         if (isset($_POST['add'])) {
@@ -44,23 +44,30 @@ class ModelController extends VanillaController
                 $stmt->execute(
                     array(
                         $_POST['carId'], $_POST['name'],
-                        $_POST['description'], date('Y', strtotime($_POST['releaseYear']))
+                        $_POST['description'], $_POST['releaseYear']
                     )
                 );
                 $result = $stmt->rowCount();
                 if ($result) {
                     $this->redirect('model/listModels/carId/' . $this->db->lastInsertId());
+                    if (!$id || !is_numeric($id)) {
+                        $this->redirect('model/listModels/' . $id);
+                    } else {
+                        $this->redirect('model/listModels');
+                    }
                 }
             }
         }
 
-        if (!($command && $command == 'carId' && $value && is_numeric($value))) {
+        if (!$id || !is_numeric($id)) {
             $sql = "SELECT * FROM auto ORDER BY name ASC";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
             $this->set('cars', $result);
             $value = null;
+        } else {
+            $value = $id;
         }
         $this->set('carId', $value);
     }
@@ -76,20 +83,20 @@ class ModelController extends VanillaController
         return $errors;
     }
 
-    public function listModels($var = null, $carId = null)
+    public function listModels($id = null)
     {
-        if (!($carId && is_numeric($carId))) {
-            $carId = null;
+        if (!($id && is_numeric($id))) {
+            $id = null;
         }
         $sql = "SELECT m.*, a.name as numeMarca FROM model AS m INNER JOIN auto AS a ON m.autoId = a.id";
 
-        if ($carId) {
+        if ($id) {
             $sql .= " WHERE m.autoId = ? ";
         }
         $sql .= " ORDER BY m.name ASC";
         $stmt = $this->db->prepare($sql);
-        if ($carId) {
-            $stmt->execute(array($carId));
+        if ($id) {
+            $stmt->execute(array($id));
         } else {
             $stmt->execute();
         }
@@ -134,21 +141,6 @@ class ModelController extends VanillaController
                 $this->set('data', $result);
             }
         }
-    }
-
-    public function listAuto($id)
-    {
-        if (!($id && is_numeric($id))) {
-            $this->redirect('dashboard/index');
-        }
-
-        $sql = "SELECT * FROM auto_version WHERE modelId = ?";
-        $stmt = $this->db->prepare($sql);
-
-        $stmt->execute(array($id));
-
-        $result = $stmt->fetchAll();
-        $this->set('data', $result);
     }
 
 }
