@@ -49,7 +49,6 @@ class ModelController extends VanillaController
                 );
                 $result = $stmt->rowCount();
                 if ($result) {
-                    $this->redirect('model/listModels/carId/' . $this->db->lastInsertId());
                     if (!$id || !is_numeric($id)) {
                         $this->redirect('model/listModels/' . $id);
                     } else {
@@ -141,6 +140,21 @@ class ModelController extends VanillaController
                 $this->set('data', $result);
             }
         }
+    }
+
+    public function listAuto($id)
+    {
+        if (!($id && is_numeric($id))) {
+            $this->redirect('dashboard/index');
+        }
+
+        $sql = "SELECT * FROM auto_version WHERE modelId = ?";
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->execute(array($id));
+
+        $result = $stmt->fetchAll();
+        $this->set('data', $result);
     }
 
 }
