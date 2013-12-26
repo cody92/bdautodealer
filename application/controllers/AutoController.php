@@ -52,13 +52,18 @@ class AutoController extends VanillaController
                 );
                 $result = $stmt->rowCount();
                 if ($result) {
-                    $this->redirect('model/listCars/' . $id);
+                    $this->redirect('model/listAuto/' . $id);
                 }
             }
         }
-        $sql = "SELECT * FROM engine ORDER BY name ASC";
+        $sql = "SELECT en.* "
+            . "FROM engine AS en "
+            . "LEFT JOIN auto AS au ON en.autoId = au.id "
+            . "LEFT JOIN model AS m ON au.id = m.autoId "
+            . "WHERE m.id = ? "
+            . "ORDER BY name ASC";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute();
+        $stmt->execute(array($id));
         $result = $stmt->fetchAll();
         $this->set('engines', $result);
         $this->set('modelId', $id);

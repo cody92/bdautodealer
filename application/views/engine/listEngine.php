@@ -11,6 +11,7 @@
                     <th>Capacitate</th>
                     <th>Putere</th>
                     <th>Consum</th>
+                    <th>Marca</th>
                     <th></th>
 
                 </tr>
@@ -27,6 +28,7 @@
                             Urban: <?php echo $engine['fuelUrban']; ?> <br />
                             Mediu: <?php echo $engine['fuelAverage']; ?> <br />
                         </td>
+                        <td class="center"><?php echo $engine['autoName']; ?></td>
                         <td class="center">
                             <a class="btn-mini btn-danger" href="/engine/edit/<?php echo $engine['id']; ?>">
                                 <i class="icon-edit icon-white"></i>

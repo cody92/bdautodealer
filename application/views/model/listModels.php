@@ -9,6 +9,7 @@
                     <th>Nume Model</th>
                     <th>Descriere Model</th>
                     <th>Nume Marca</th>
+                    <th>Numar Masini</th>
                     <th></th>
 
                 </tr>
@@ -16,9 +17,10 @@
             <tbody>
                 <?php foreach ($data as $id => $auto) : ?>
                     <tr>
-                        <td><?php echo $auto['name']; ?></td>
+                        <td class="center"><?php echo $auto['name']; ?></td>
                         <td class="center"><?php echo $auto['description']; ?></td>
                         <td class="center"><?php echo $auto['numeMarca']; ?></td>
+                        <td class="center"><?php echo $auto['totalCars']; ?></td>
                         <td class="center">
                             <a class="btn-mini btn-danger" href="/model/edit/<?php echo $auto['id']; ?>">
                                 <i class="icon-edit icon-white"></i>

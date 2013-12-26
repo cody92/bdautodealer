@@ -9,39 +9,50 @@ class EngineController extends VanillaController
     const HYBRID = 4;
     const ELECTRIC = 5;
 
-    function index()
+    protected $addValidateFields = array(
+        'name' => 'Nume motorizare',
+        'type' => 'Tip motorizare',
+        'capacity' => 'Capacitate motor',
+        'horsePower' => 'Puter motor',
+        'fuelAverage' => 'Consum Mediu',
+        'fuelUrban' => 'Consum urban',
+        'fuelExtra' => 'Consum extra urban',
+        'autoId' => 'Marca auto'
+    );
+
+    public function index()
     {
         $this->redirect('dashboard/index');
     }
 
-    function beforeAction()
+    public function beforeAction()
     {
 
     }
 
-    function afterAction()
+    public function afterAction()
     {
 
     }
 
-    public function add()
+    public function add($id = null)
     {
 
         if (isset($_POST['add'])) {
-            $result = $this->validateData($_POST);
+            $result = $this->validateData($_POST, $this->addValidateFields);
             if (count($result)) {
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
             } else {
                 $sql = "INSERT INTO engine (`type`, `capacity`, `name`, `horsePower`, `fuelAverage`, "
-                    . "`fuelUrban`, `fuelExtra`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    . "`fuelUrban`, `fuelExtra`, `autoId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute(
                     array(
-                        $_POST['engine_type'], $_POST['engine_capacity'],
-                        $_POST['engine_name'], $_POST['engine_power'],
-                        $_POST['engine_average'], $_POST['engine_urban'],
-                        $_POST['engine_extra']
+                        $_POST['type'], $_POST['capacity'],
+                        $_POST['name'], $_POST['horsePower'],
+                        $_POST['fuelAverage'], $_POST['fuelUrban'],
+                        $_POST['fuelExtra'], $_POST['autoId']
                     )
                 );
                 $result = $stmt->rowCount();
@@ -49,21 +60,21 @@ class EngineController extends VanillaController
                     $this->redirect('engine/listEngine');
                 }
             }
-        } else {
-            $this->set('types', $this->listEngineType());
         }
-        if (!($command && $command == 'carId' && $value && is_numeric($value))) {
+        if ($id && is_numeric($id)) {
+            $this->set('auto', $id);
+            $this->set('autos', array());
+        } else {
             $sql = "SELECT * FROM auto ORDER BY name ASC";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
-            $this->set('cars', $result);
-            $value = null;
+            $this->set('autos', $result);
         }
-        $this->set('carId', $value);
+        $this->set('types', $this->listEngineType());
     }
 
-    public function edit($id)
+    public function edit($id = null)
     {
         if (!is_numeric($id)) {
             $this->redirect('engine/listEngine');
@@ -72,7 +83,9 @@ class EngineController extends VanillaController
 
 
             if (isset($_POST['add'])) {
-                $result = $this->validateEditData($_POST);
+                $validateFields = $this->addValidateFields;
+                unset($validateFields['autoId']);
+                $result = $this->validateData($_POST, $this->addValidateFields);
                 if (count($result)) {
                     $this->set('errors', $result);
                     $this->set('data', $_POST);
@@ -80,7 +93,8 @@ class EngineController extends VanillaController
                     $sql = "UPDATE engine SET "
                         . "name = ?, type = ?, capacity = ?,"
                         . "horsePower = ?, fuelAverage = ?,"
-                        . "fuelUrban = ?, fuelExtra = ? "
+                        . "fuelUrban = ?, fuelExtra = ?, "
+                        . "autoId = ? "
                         . "WHERE id = ?;";
                     $stmt = $this->db->prepare($sql);
                     $stmt->execute(
@@ -88,7 +102,8 @@ class EngineController extends VanillaController
                             $_POST['name'], $_POST['type'],
                             $_POST['capacity'], $_POST['horsePower'],
                             $_POST['fuelAverage'], $_POST['fuelUrban'],
-                            $_POST['fuelExtra'], $id
+                            $_POST['fuelExtra'], $_POST['autoId'],
+                            $id
                         )
                     );
                     $result = $stmt->rowCount();
@@ -107,57 +122,23 @@ class EngineController extends VanillaController
         }
     }
 
-    private function validateData($data)
+    private function validateData($data, $columns)
     {
         $errors = array();
-        if (!$this->validateInput($data['engine_name'])) {
-            $errors['engine_name'][] = 'Campul "Nume motorizare" nu poate fi gol';
-        }
-        if (!$this->validateInput($data['engine_type'])) {
-            $errors['engine_type'][] = 'Campul Tip model nu poate fi gol';
-        }
-        if (!$this->validateInput($data['engine_capacity'])) {
-            $errors['engine_capacity'][] = 'Campul Capacitate nu poate fi gol';
-        }
-        if (!$this->validateInput($data['engine_average'])) {
-            $errors['engine_average'][] = 'Campul Consum mediu nu poate fi gol';
-        }
-        if (!$this->validateInput($data['engine_extra'])) {
-            $errors['engine_extra'][] = 'Campul Consum extra-urban nu poate fi gol';
-        }
-        if (!$this->validateInput($data['engine_urban'])) {
-            $errors['engine_urban'][] = 'Campul Consum urban nu poate fi gol';
-        }
-        return $errors;
-    }
-
-    private function validateEditData($data)
-    {
-        $errors = array();
-        if (!$this->validateInput($data['name'])) {
-            $errors['name'][] = 'Campul "Nume motrizare" nu poate fi gol';
-        }
-        if (!$this->validateInput($data['type'])) {
-            $errors['type'][] = 'Campul Tip model nu poate fi gol';
-        }
-        if (!$this->validateInput($data['capacity'])) {
-            $errors['capacity'][] = 'Campul Capacitate nu poate fi gol';
-        }
-        if (!$this->validateInput($data['fuelAverage'])) {
-            $errors['fuelAverage'][] = 'Campul Consum mediu nu poate fi gol';
-        }
-        if (!$this->validateInput($data['fuelExtra'])) {
-            $errors['fuelExtra'][] = 'Campul Consum extra-urban nu poate fi gol';
-        }
-        if (!$this->validateInput($data['fuelUrban'])) {
-            $errors['fuelUrban'][] = 'Campul Consum urban nu poate fi gol';
+        foreach ($columns as $columnName => $columnLabel) {
+            if (!$this->validateInput($data[$columnName])) {
+                $errors[$columnName][] = "Campul \"$columnLabel\" nu poate fi gol";
+            }
         }
         return $errors;
     }
 
     public function listEngine()
     {
-        $sql = "SELECT * FROM engine ORDER BY name ASC";
+        $sql = "SELECT en. *, au.name as autoName "
+            . "FROM engine AS en "
+            . "LEFT JOIN auto AS au ON en.autoId = au.id "
+            . "ORDER BY name ASC";
 
         $stmt = $this->db->prepare($sql);
 

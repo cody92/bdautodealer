@@ -11,17 +11,25 @@
                     <div class="control-group <?php if (isset($errors['type'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="type">Tip motor*:</label>
                         <div class="controls">
-                            <select id="carId" name="type" data-rel="chosen" required="">
+                            <select id="type" name="type" data-rel="chosen" required="">
+                                <option></option>
                                 <?php foreach ($types as $key => $type) : ?>
-                                    <option value="<?php echo $key; ?>"
-                                    <?php if ($data['type'] == $key) : ?>
-                                                selected
-                                            <?php endif; ?>
-                                            ><?php echo $type; ?></option>
-                                        <?php endforeach; ?>
+                                    <option
+                                    <?php
+                                    if ($data['type'] == $key) {
+                                        echo 'selected';
+                                    }
+                                    ?>
+                                        value="<?php echo $key; ?>"><?php echo $type; ?></option>
+<?php endforeach; ?>
 
                             </select>
                         </div>
+                    </div>
+                    <div class="control-group <?php if (isset($errors['autoId'])) : ?>error <?php endif; ?>">
+
+                        <input type="hidden" name="autoId" value="<?php echo $data['autoId']; ?>" />
+
                     </div>
 
                     <div class="control-group <?php if (isset($errors['name'])) : ?>error <?php endif; ?>">
@@ -33,11 +41,11 @@
                                        echo $data['name'];
                                    }
                                    ?>" required />
-                                   <?php if (isset($errors['name'])) : ?>
+                                <?php if (isset($errors['name'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['name']); ?>
+                                <?php echo implode(',', $errors['name']); ?>
                                 </span>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                     </div>
                     <div class="control-group <?php if (isset($errors['capacity'])) : ?>error <?php endif; ?>">
@@ -49,11 +57,11 @@
                                        echo $data['capacity'];
                                    }
                                    ?>" required />
-                                   <?php if (isset($errors['capacity'])) : ?>
+                                <?php if (isset($errors['capacity'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['capacity']); ?>
+                                <?php echo implode(',', $errors['capacity']); ?>
                                 </span>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                     </div>
                     <div class="control-group <?php if (isset($errors['horsePower'])) : ?>error <?php endif; ?>">
@@ -65,11 +73,11 @@
                                        echo $data['horsePower'];
                                    }
                                    ?>" required />
-                                   <?php if (isset($errors['horsePower'])) : ?>
+                                <?php if (isset($errors['horsePower'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['horsePower']); ?>
+                                <?php echo implode(',', $errors['horsePower']); ?>
                                 </span>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                     </div>
                     <div class="control-group <?php if (isset($errors['fuelUrban'])) : ?>error <?php endif; ?>">
@@ -81,11 +89,11 @@
                                         echo $data['fuelUrban'];
                                     }
                                     ?>" required />
-                                    <?php if (isset($errors['fuelUrban'])) : ?>
+                                <?php if (isset($errors['fuelUrban'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['fuelUrban']); ?>
+                                <?php echo implode(',', $errors['fuelUrban']); ?>
                                 </span>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                     </div>
                     <div class="control-group <?php if (isset($errors['fuelExtra'])) : ?>error <?php endif; ?>">
@@ -97,11 +105,11 @@
                                         echo $data['fuelExtra'];
                                     }
                                     ?>" required />
-                                    <?php if (isset($errors['fuelExtra'])) : ?>
+                                <?php if (isset($errors['fuelExtra'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['fuelExtra']); ?>
+                                <?php echo implode(',', $errors['fuelExtra']); ?>
                                 </span>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                     </div>
                     <div class="control-group <?php if (isset($errors['fuelAverage'])) : ?>error <?php endif; ?>">
@@ -113,11 +121,11 @@
                                         echo $data['fuelAverage'];
                                     }
                                     ?>" required />
-                                    <?php if (isset($errors['fuelAverage'])) : ?>
+                                <?php if (isset($errors['fuelAverage'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['fuelAverage']); ?>
+                                <?php echo implode(',', $errors['fuelAverage']); ?>
                                 </span>
-                            <?php endif; ?>
+<?php endif; ?>
                         </div>
                     </div>
                     <div class="form-actions">

@@ -6,12 +6,13 @@
 
         </div>
         <div class="box-content">
-            <form class="form-horizontal" method="post" action="<?php echo $this->url('engine/add'); ?>">
+            <form class="form-horizontal" method="post" action="<?php echo $this->url('engine/add' . (count($autos) ? '' : '/' . $auto )); ?>">
                 <fieldset>
-                    <div class="control-group <?php if (isset($errors['engine_type'])) : ?>error <?php endif; ?>">
-                        <label class="control-label" for="engine_type">Tip motor*:</label>
+                    <div class="control-group <?php if (isset($errors['type'])) : ?>error <?php endif; ?>">
+                        <label class="control-label" for="type">Tip motor*:</label>
                         <div class="controls">
-                            <select id="carId" name="engine_type" data-rel="chosen" required="">
+                            <select id="type" name="type" data-rel="chosen" required="">
+                                <option></option>
                                 <?php foreach ($types as $key => $type) : ?>
                                     <option value="<?php echo $key; ?>"><?php echo $type; ?></option>
                                 <?php endforeach; ?>
@@ -19,99 +20,121 @@
                             </select>
                         </div>
                     </div>
+                    <div class="control-group <?php if (isset($errors['autoId'])) : ?>error <?php endif; ?>">
+                        <?php if (count($autos)) : ?>
+                            <label class="control-label" for="autoId">Marca auto*:</label>
+                            <div class="controls">
 
-                    <div class="control-group <?php if (isset($errors['engine_name'])) : ?>error <?php endif; ?>">
+                                <select id="autoId" name="autoId" data-rel="chosen" required="">
+                                    <option></option>
+                                    <?php foreach ($autos as $auto) : ?>
+                                        <option <?php
+                                        if (isset($data['autoId']) && !empty($data['autoId']) && $data['autoId'] == $key) {
+                                            echo 'selected';
+                                        }
+                                        ?> value="<?php echo $auto['id']; ?>"><?php echo $auto['name']; ?></option>
+                                        <?php endforeach; ?>
+
+                                </select>
+
+                            </div>
+                        <?php else : ?>
+                            <input type="hidden" name="autoId" value="<?php echo $auto; ?>" />
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="control-group <?php if (isset($errors['name'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Nume motorizare*:</label>
                         <div class="controls">
-                            <input class="input-xlarge focused" id="engine_name" name="engine_name" type="text"
+                            <input class="input-xlarge focused" id="name" name="name" type="text"
                                    value="<?php
-                                   if (isset($data['engine_name']) && !empty($data['engine_name'])) {
-                                       echo $data['engine_name'];
+                                   if (isset($data['name']) && !empty($data['name'])) {
+                                       echo $data['name'];
                                    }
                                    ?>" required />
-                                   <?php if (isset($errors['engine_name'])) : ?>
+                                   <?php if (isset($errors['name'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['engine_name']); ?>
+                                    <?php echo implode(',', $errors['name']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="control-group <?php if (isset($errors['engine_capacity'])) : ?>error <?php endif; ?>">
+                    <div class="control-group <?php if (isset($errors['capacity'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Capacitate(pentru GPL,DIESEL si Benzina):</label>
                         <div class="controls">
-                            <input class="input-xlarge focused" id="engine_capacity" name="engine_capacity" type="number"
+                            <input class="input-xlarge focused" id="capacity" name="capacity" type="number"
                                    value="<?php
-                                   if (isset($data['engine_capacity']) && !empty($data['engine_capacity'])) {
-                                       echo $data['engine_capacity'];
+                                   if (isset($data['capacity']) && !empty($data['capacity'])) {
+                                       echo $data['capacity'];
                                    }
                                    ?>" required />
-                                   <?php if (isset($errors['engine_capacity'])) : ?>
+                                   <?php if (isset($errors['capacity'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['engine_capacity']); ?>
+                                    <?php echo implode(',', $errors['capacity']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="control-group <?php if (isset($errors['engine_power'])) : ?>error <?php endif; ?>">
+                    <div class="control-group <?php if (isset($errors['horsePower'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Putere motor:</label>
                         <div class="controls">
-                            <input class="input-xlarge focused" id="engine_power" name="engine_power" type="number"
+                            <input class="input-xlarge focused" id="horsePower" name="horsePower" type="number"
                                    value="<?php
-                                   if (isset($data['engine_power']) && !empty($data['engine_power'])) {
-                                       echo $data['engine_power'];
+                                   if (isset($data['horsePower']) && !empty($data['horsePower'])) {
+                                       echo $data['horsePower'];
                                    }
                                    ?>" required />
-                                   <?php if (isset($errors['engine_power'])) : ?>
+                                   <?php if (isset($errors['horsePower'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['engine_power']); ?>
+                                    <?php echo implode(',', $errors['horsePower']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="control-group <?php if (isset($errors['engine_urban'])) : ?>error <?php endif; ?>">
+                    <div class="control-group <?php if (isset($errors['fuelUrban'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Consum urban*:</label>
                         <div class="controls">
-                            <input  class="input-xlarge focused" id="engine_urban" name="engine_urban" type="number"
+                            <input  class="input-xlarge focused" id="fuelUrban" name="fuelUrban" type="number"
                                     step="any" value="<?php
-                                    if (isset($data['engine_urban']) && !empty($data['engine_urban'])) {
-                                        echo $data['engine_urban'];
+                                    if (isset($data['fuelUrban']) && !empty($data['fuelUrban'])) {
+                                        echo $data['fuelUrban'];
                                     }
                                     ?>" required />
-                                    <?php if (isset($errors['engine_urban'])) : ?>
+                                    <?php if (isset($errors['fuelUrban'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['engine_urban']); ?>
+                                    <?php echo implode(',', $errors['fuelUrban']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="control-group <?php if (isset($errors['engine_extra'])) : ?>error <?php endif; ?>">
+                    <div class="control-group <?php if (isset($errors['fuelExtra'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Consum extra-urban*:</label>
                         <div class="controls">
-                            <input  class="input-xlarge focused" id="engine_extra" name="engine_extra" type="number"
+                            <input  class="input-xlarge focused" id="fuelExtra" name="fuelExtra" type="number"
                                     step="any" value="<?php
-                                    if (isset($data['engine_extra']) && !empty($data['engine_extra'])) {
-                                        echo $data['engine_extra'];
+                                    if (isset($data['fuelExtra']) && !empty($data['fuelExtra'])) {
+                                        echo $data['fuelExtra'];
                                     }
                                     ?>" required />
-                                    <?php if (isset($errors['engine_extra'])) : ?>
+                                    <?php if (isset($errors['fuelExtra'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['engine_extra']); ?>
+                                    <?php echo implode(',', $errors['fuelExtra']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="control-group <?php if (isset($errors['engine_average'])) : ?>error <?php endif; ?>">
+                    <div class="control-group <?php if (isset($errors['fuelAverage'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="focusedInput">Consum mediu*:</label>
                         <div class="controls">
-                            <input  class="input-xlarge focused" id="engine_average" name="engine_average" type="number"
+                            <input  class="input-xlarge focused" id="fuelAverage" name="fuelAverage" type="number"
                                     step="any" value="<?php
-                                    if (isset($data['engine_average']) && !empty($data['engine_average'])) {
-                                        echo $data['engine_average'];
+                                    if (isset($data['fuelAverage']) && !empty($data['fuelAverage'])) {
+                                        echo $data['fuelAverage'];
                                     }
                                     ?>" required />
-                                    <?php if (isset($errors['engine_average'])) : ?>
+                                    <?php if (isset($errors['fuelAverage'])) : ?>
                                 <span class="help-inline">
-                                    <?php echo implode(',', $errors['engine_average']); ?>
+                                    <?php echo implode(',', $errors['fuelAverage']); ?>
                                 </span>
                             <?php endif; ?>
                         </div>

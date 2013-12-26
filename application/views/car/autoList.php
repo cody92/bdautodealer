@@ -21,11 +21,11 @@
                         <td class="center"></td>
                         <td class="center"><?php echo $auto['totalModels']; ?></td>
                         <td class="center">
-                            <a class="btn-mini btn-success" href="/model/add/carId/<?php echo $auto['id']; ?>" >
+                            <a class="btn-mini btn-success" href="/model/add/<?php echo $auto['id']; ?>" >
                                 <i class="icon-add icon-white"></i>
                                 Adauga model
                             </a>
-                            <a class="btn-mini btn-info" href="/model/list/carId/<?php echo $auto['id']; ?>">
+                            <a class="btn-mini btn-info" href="/model/listModels/<?php echo $auto['id']; ?>">
                                 <i class="icon-list icon-white"></i>
                                 Vezi modele
                             </a>

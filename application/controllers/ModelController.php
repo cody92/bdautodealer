@@ -87,12 +87,15 @@ class ModelController extends VanillaController
         if (!($id && is_numeric($id))) {
             $id = null;
         }
-        $sql = "SELECT m.*, a.name as numeMarca FROM model AS m INNER JOIN auto AS a ON m.autoId = a.id";
+        $sql = "SELECT m.*, a.name as numeMarca, COUNT(av.id) as totalCars "
+            . "FROM model AS m "
+            . "INNER JOIN auto AS a ON m.autoId = a.id "
+            . "LEFT JOIN auto_version AS av ON m.id = av.modelId";
 
         if ($id) {
             $sql .= " WHERE m.autoId = ? ";
         }
-        $sql .= " ORDER BY m.name ASC";
+        $sql .= " GROUP BY m.id ORDER BY m.name ASC";
         $stmt = $this->db->prepare($sql);
         if ($id) {
             $stmt->execute(array($id));
