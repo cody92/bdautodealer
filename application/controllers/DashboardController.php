@@ -3,17 +3,17 @@
 class DashboardController extends VanillaController
 {
 
-    function beforeAction()
+    public function beforeAction()
     {
 
     }
 
-    function view($categoryId = null)
+    public function view($categoryId = null)
     {
 
     }
 
-    function index()
+    public function index()
     {
         $dashboardItems = array(
             array(
@@ -52,11 +52,23 @@ class DashboardController extends VanillaController
                 'tooltip-text' => 'Listare motorizari',
                 'link' => 'engine/listEngine'
             ),
+            array(
+                'css-icon' => 'icon-square-plus',
+                'head-title' => 'Adauga echipament',
+                'tooltip-text' => 'Adauga echipament',
+                'link' => 'equipment/add'
+            ),
+            array(
+                'css-icon' => 'icon-square-plus',
+                'head-title' => 'Lista echipamente',
+                'tooltip-text' => 'Lista echipamente',
+                'link' => 'equipment/listEquipment'
+            ),
         );
         $this->set('items', $dashboardItems);
     }
 
-    function afterAction()
+    public function afterAction()
     {
 
     }
