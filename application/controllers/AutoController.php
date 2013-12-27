@@ -27,7 +27,7 @@ class AutoController extends VanillaController
 
     }
 
-    public function add($id)
+    public function add($id = null)
     {
         if (!$id && !is_numeric($id)) {
             $this->redirect('dashboard/index');
@@ -69,7 +69,7 @@ class AutoController extends VanillaController
         $this->set('modelId', $id);
     }
 
-    public function edit($id)
+    public function edit($id = null)
     {
         if (!$id && !is_numeric($id)) {
             $this->redirect('dashboard/index');
@@ -122,6 +122,52 @@ class AutoController extends VanillaController
             }
         }
         return $errors;
+    }
+
+    public function addEquipment($id = null)
+    {
+        if (!$id && !is_numeric($id)) {
+            $this->redirect('dashboard/index');
+            return 0;
+        }
+        if (isset($_POST['add'])) {
+            $result = $this->validateData($_POST, $this->addValidateFields);
+            if (count($result)) {
+                $this->set('errors', $result);
+                $this->set('data', $_POST);
+            } else {
+                $database = $this->db;
+                $database->beginTransaction();
+                $sql = "INSERT INTO carequipment (`name`, `engineId`, `weight`, `seatsNumber`, `doorsNumber`, "
+                    . "`price`, `modelId`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                try {
+                    $stmt = $database->prepare($sql);
+                    $stmt->execute(
+                        array(
+                            $_POST['name'], $_POST['engineId'],
+                            $_POST['weight'], $_POST['seatsNumber'],
+                            $_POST['doorsNumber'], $_POST['price'],
+                            $id
+                        )
+                    );
+                    $database->commit();
+                } catch (PDOException $e) {
+                    $database->rollback();
+                }
+                $this->redirect('model/listAuto/' . $id);
+            }
+        }
+        $sql = "SELECT en.* "
+            . "FROM engine AS en "
+            . "LEFT JOIN auto AS au ON en.autoId = au.id "
+            . "LEFT JOIN model AS m ON au.id = m.autoId "
+            . "WHERE m.id = ? "
+            . "ORDER BY name ASC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(array($id));
+        $result = $stmt->fetchAll();
+        $this->set('engines', $result);
+        $this->set('id', $id);
     }
 
 }

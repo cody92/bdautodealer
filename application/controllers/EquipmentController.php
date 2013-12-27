@@ -6,7 +6,6 @@ class EquipmentController extends VanillaController
     private $addValidateFields = array(
         'name' => 'Nume echipament',
         'description' => 'Descriere echipament',
-        'price' => 'Pret',
     );
 
     public function beforeAction()
@@ -33,12 +32,12 @@ class EquipmentController extends VanillaController
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
             } else {
-                $sql = "INSERT INTO equipments (`name`, `description`, `price`) VALUES (?, ?, ?)";
+                $sql = "INSERT INTO equipments (`name`, `description`) VALUES (?, ?)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute(
                     array(
                         $_POST['name'],
-                        $_POST['description'], $_POST['price']
+                        $_POST['description']
                     )
                 );
                 $result = $stmt->rowCount();
@@ -76,13 +75,13 @@ class EquipmentController extends VanillaController
                     $this->set('data', $_POST);
                 } else {
                     $sql = "UPDATE equipments SET "
-                        . "name = ?, description = ?, price = ? "
+                        . "name = ?, description = ? "
                         . "WHERE id = ?;";
                     $stmt = $this->db->prepare($sql);
                     $stmt->execute(
                         array(
                             $_POST['name'], $_POST['description'],
-                            $_POST['price'], $id
+                            $id
                         )
                     );
                     $result = $stmt->rowCount();

@@ -6,8 +6,9 @@
         <table class="table table-striped table-bordered bootstrap-datatable datatable">
             <thead>
                 <tr>
-                    <th>Nume Echipament</th>
-                    <th>Descriere Echipament</th>
+                    <th>Pret</th>
+                    <th>Model</th>
+                    <th>Optiune</th>
                     <th></th>
 
                 </tr>
@@ -15,10 +16,11 @@
             <tbody>
                 <?php foreach ($data as $equipment) : ?>
                     <tr>
-                        <td><?php echo $equipment['name']; ?></td>
-                        <td class="center"><?php echo $equipment['description']; ?></td>
+                        <td class="center"><?php echo $equipment['price']; ?></td>
+                        <td class="center"><?php echo $equipment['aName'] . ' ' . $equipment['mName']; ?></td>
+                        <td class="center"><?php echo $equipment['eqName'] . '<br />' . $equipment['value']; ?></td>
                         <td class="center">
-                            <a class="btn-mini btn-danger" href="/equipment/edit/<?php echo $equipment['id']; ?>">
+                            <a class="btn-mini btn-danger" href="/modelEquipment/edit/<?php echo $equipment['id']; ?>">
                                 <i class="icon-edit icon-white"></i>
                                 Editeaza echipament
                             </a>

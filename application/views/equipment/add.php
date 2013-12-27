@@ -25,23 +25,6 @@
                             <?php endif; ?>
                         </div>
                     </div>
-                    <div class="control-group <?php if (isset($errors['price'])) : ?>error <?php endif; ?>">
-                        <label class="control-label" for="focusedInput">Pret echipament*:</label>
-                        <div class="controls">
-                            <input class="input-xlarge focused" id="name" name="price" type="number" required=""
-                                   value="<?php
-                                   if (isset($data['price']) && !empty($data['price'])) {
-                                       echo $data['price'];
-                                   }
-                                   ?>">
-                                   <?php if (isset($errors['price'])) : ?>
-                                <br />
-                                <span class="help-inline">
-                                    <?php echo implode(',', $errors['price']); ?>
-                                </span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
                     <div class="control-group <?php if (isset($errors['description'])) : ?>error <?php endif; ?>">
                         <label class="control-label" for="textarea2">Descriere echipament*:</label>
                         <div class="controls">
