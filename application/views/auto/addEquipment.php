@@ -11,12 +11,13 @@
                     <div class="control-group">
                         <label class="control-label" for="equipments">Adauga echipamente</label>
                         <div class="controls">
-                            <select id="equipments" name="equipments" multiple data-rel="chosen">
-                                <option>Option 1</option>
-                                <option selected>Option 2</option>
-                                <option>Option 3</option>
-                                <option>Option 4</option>
-                                <option>Option 5</option>
+                            <select id="equipments" name="equipments[]" multiple data-rel="chosen">
+                                <option></option>
+                                <?php
+                                foreach ($equipments as $equip) :
+                                    ?>
+                                    <option value="<?php echo $equip['id']; ?>"><?php echo $equip['value']; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>

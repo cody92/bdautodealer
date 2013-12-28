@@ -41,6 +41,12 @@
                                 <i class="icon-list icon-white"></i>
                                 Adauga optiune
                             </a>
+                            <br />
+                            <a class="btn-mini btn-danger" href="/modelEquipment/listEquipment/<?php echo $auto['id']; ?>">
+                                <i class="icon-list icon-white"></i>
+                                Lista optiune
+                            </a>
+
                         </td>
                     </tr>
                 <?php endforeach; ?>

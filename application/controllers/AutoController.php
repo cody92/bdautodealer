@@ -130,44 +130,62 @@ class AutoController extends VanillaController
             $this->redirect('dashboard/index');
             return 0;
         }
-        if (isset($_POST['add'])) {
-            $result = $this->validateData($_POST, $this->addValidateFields);
-            if (count($result)) {
-                $this->set('errors', $result);
-                $this->set('data', $_POST);
-            } else {
-                $database = $this->db;
-                $database->beginTransaction();
-                $sql = "INSERT INTO carequipment (`name`, `engineId`, `weight`, `seatsNumber`, `doorsNumber`, "
-                    . "`price`, `modelId`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                try {
+        if (isset($_POST['add']) && isset($_POST['equipments']) && count($_POST['equipments'])) {
+
+
+            $database = $this->db;
+            $database->beginTransaction();
+            $sql = "INSERT INTO carequipment (`equipmentId`, `autoId`, `type`) "
+                . " VALUES (?, ?, ?)";
+            try {
+                $stmt = $database->prepare("DELETE FROM carequipment WHERE autoId = ?");
+                $stmt->execute(array($id));
+                foreach ($_POST['equipments'] as $equipment) {
                     $stmt = $database->prepare($sql);
                     $stmt->execute(
                         array(
-                            $_POST['name'], $_POST['engineId'],
-                            $_POST['weight'], $_POST['seatsNumber'],
-                            $_POST['doorsNumber'], $_POST['price'],
-                            $id
+                            $equipment, $id, 1
                         )
                     );
-                    $database->commit();
-                } catch (PDOException $e) {
-                    $database->rollback();
                 }
-                $this->redirect('model/listAuto/' . $id);
+
+                $database->commit();
+            } catch (PDOException $e) {
+                $database->rollback();
             }
+            $this->redirect('model/listAuto/' . $id);
         }
-        $sql = "SELECT en.* "
-            . "FROM engine AS en "
-            . "LEFT JOIN auto AS au ON en.autoId = au.id "
-            . "LEFT JOIN model AS m ON au.id = m.autoId "
-            . "WHERE m.id = ? "
-            . "ORDER BY name ASC";
+        $sql = "SELECT eqo.id, eq.name, eqo.value, ce.id  as selected "
+            . "FROM equipmentoptions AS eqo "
+            . "INNER JOIN equipments AS eq ON eqo.equipmentId = eq.id "
+            . "INNER JOIN model AS m ON eqo.modelId = m.id "
+            . "INNER JOIN auto_version AS av ON m.id = av.modelId "
+            . "LEFT JOIN carequipment AS ce ON ce.equipmentId = eqo.id  "
+            . "WHERE av.id = ? "
+            . "ORDER BY eq.name ASC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array($id));
-        $result = $stmt->fetchAll();
-        $this->set('engines', $result);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $this->set('equipments', $result);
+        print_r($result);
         $this->set('id', $id);
+    }
+
+    public function listEquipment($id = null)
+    {
+        if (!$id && !is_numeric($id)) {
+            $this->redirect('dashboard/index');
+            return 0;
+        }
+        $sql = "SELECT eq.*, eqo.* "
+            . "FROM carequipment AS ce "
+            . "INNER JOIN equipmentoptions AS eqo ON ce.equipmentId = eqo.id "
+            . "INNER JOIN equipments AS eq ON eqo.equipmentId = eq.id "
+            . "WHERE ce.autoId = ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(array($id));
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        print_r($result);
     }
 
 }

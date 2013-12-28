@@ -73,11 +73,13 @@
                 <?php if (!isset($no_visible_elements) || !$no_visible_elements) { ?>
 
                     <!-- left menu starts -->
-                    <div class="span2 main-menu-span">
+                    <div class="span-menu main-menu-span">
                         <div class="well nav-collapse sidebar-nav">
                             <ul class="nav nav-tabs nav-stacked main-menu">
-                                <li class="nav-header hidden-tablet">Main</li>
                                 <li><a class="ajax-link" href="<?php echo $this->getBasePath(); ?>dashboard/index"><i class="icon-home"></i><span class="hidden-tablet"> Dashboard</span></a></li>
+                                <?php foreach (DashboardController::$dashboardItems as $item) : ?>
+                                    <li><a class="ajax-link" href="<?php echo $this->getBasePath() . $item['link']; ?>"><i class="icon-home"></i><span class="hidden-tablet"> <?php echo $item['head-title']; ?></span></a></li>
+                                <?php endforeach; ?>
 
                             </ul>
                         </div><!--/.well -->
@@ -86,7 +88,7 @@
 
 
 
-                    <div id="content" class="span10">
+                    <div id="content" class="span-content">
                         <!-- content starts -->
                     <?php } ?>
                     <?php

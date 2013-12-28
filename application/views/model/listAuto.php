@@ -24,10 +24,12 @@
                                 <i class="icon-edit icon-white"></i>
                                 Editeaza masina
                             </a>
+                            <br />
                             <a class="btn-mini btn-success" href="/auto/addEquipment/<?php echo $auto['id']; ?>">
                                 <i class="icon-edit icon-white"></i>
                                 Adauga echipament
                             </a>
+                            <br />
                             <a class="btn-mini btn-success" href="/auto/listEquipment/<?php echo $auto['id']; ?>">
                                 <i class="icon-edit icon-white"></i>
                                 Lista echipament
