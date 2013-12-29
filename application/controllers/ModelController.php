@@ -49,7 +49,7 @@ class ModelController extends VanillaController
                 );
                 $result = $stmt->rowCount();
                 if ($result) {
-                    if (!$id || !is_numeric($id)) {
+                    if ($id && is_numeric($id)) {
                         $this->redirect('model/listModels/' . $id);
                     } else {
                         $this->redirect('model/listModels');
@@ -151,7 +151,11 @@ class ModelController extends VanillaController
             $this->redirect('dashboard/index');
         }
 
-        $sql = "SELECT * FROM auto_version WHERE modelId = ?";
+        $sql = "SELECT av.* "
+            . "FROM auto_version AS av "
+            . "INNER JOIN model AS m ON av.modelId = m.id "
+            . "WHERE av.modelId = ?"
+            . "ORDER BY av.name ASC";
         $stmt = $this->db->prepare($sql);
 
         $stmt->execute(array($id));

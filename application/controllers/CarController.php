@@ -108,12 +108,12 @@ class CarController extends VanillaController
 
     public function autoList()
     {
-        $sql = "SELECT a.*, COUNT(m.autoId) as totalModels, COUNT(e.id) as totalEngines "
+        $sql = "SELECT a.*, (SELECT COUNT(m.id) FROM model as m WHERE m.autoId = a.id) AS totalModels, "
+            . "(SELECT COUNT(e.id) FROM engine as e WHERE e.autoId = a.id) AS totalEngines "
             . "FROM auto AS a "
-            . "LEFT JOIN model AS m ON a.id = m.autoId "
-            . "LEFT JOIN engine AS e ON a.id = e.autoId "
-            . "GROUP BY a.id "
-            . "ORDER BY name ASC";
+            . "ORDER BY a.name ASC";
+
+
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll();

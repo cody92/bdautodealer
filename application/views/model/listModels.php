@@ -23,27 +23,27 @@
                         <td class="center"><?php echo $auto['totalCars']; ?></td>
                         <td class="center">
                             <a class="btn-mini btn-danger" href="/model/edit/<?php echo $auto['id']; ?>">
-                                <i class="icon-edit icon-white"></i>
+
                                 Editeaza model
                             </a>
 
                             <a class="btn-mini btn-success" href="/auto/add/<?php echo $auto['id']; ?>">
-                                <i class="icon-edit icon-white"></i>
+
                                 Adauga masina
                             </a>
                             <br />
                             <a class="btn-mini btn-success" href="/model/listAuto/<?php echo $auto['id']; ?>">
-                                <i class="icon-list icon-white"></i>
+
                                 Lista masini
                             </a>
 
-                            <a class="btn-mini btn-danger" href="/modelEquipment/add/<?php echo $auto['id']; ?>">
-                                <i class="icon-list icon-white"></i>
+                            <a class="btn-mini btn-danger" href="/equipment/add/<?php echo $auto['id']; ?>">
+
                                 Adauga optiune
                             </a>
                             <br />
-                            <a class="btn-mini btn-danger" href="/modelEquipment/listEquipment/<?php echo $auto['id']; ?>">
-                                <i class="icon-list icon-white"></i>
+                            <a class="btn-mini btn-danger" href="/equipment/listEquipment/<?php echo $auto['id']; ?>">
+
                                 Lista optiune
                             </a>
 
