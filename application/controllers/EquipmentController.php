@@ -1,6 +1,6 @@
 <?php
 
-class EquipmentController extends VanillaController
+class EquipmentController extends BdController
 {
 
     private $addValidateFields = array(

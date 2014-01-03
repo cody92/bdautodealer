@@ -1,14 +1,23 @@
 <?php
 
-class ModelController extends VanillaController
+class ModelController extends BdController
 {
 
+    /**
+     *
+     * @var array variabila pentru campurile care trebuiesc verificate in formularul de adaugare model
+     */
     private $addValidateFields = array(
         'name' => 'Nume model',
         'description' => 'Descriere Marca',
         'releaseYear' => 'An',
         'carId' => 'Marca',
     );
+
+    /**
+     *
+     * @var array variabila pentru campurile care trebuiesc verificate in formularul de editare model
+     */
     private $editValidateFields = array(
         'name' => 'Nume model',
         'description' => 'Greutate',
@@ -30,15 +39,26 @@ class ModelController extends VanillaController
 
     }
 
+    /**
+     * pagina adaugare intrare noua pentru tabela model, primeste ca parametru id-ul marcii pentru care
+     * adaugam model nou
+     *
+     * @param int $id
+     * @return int
+     */
     public function add($id = null)
     {
-        //logo upload is not implemented yet
+        //verificam daca a fost trimisa cererea de post pentru adaugare intrare noua
         if (isset($_POST['add'])) {
+            //validam datele primite prin POST
             $result = $this->validateData($_POST, $this->addValidateFields);
+            //verificam daca sunt erori, daca sunt erori le afisam in formular cu datele care sunt deja completate
             if (count($result)) {
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
             } else {
+                //daca nu au fost erori adaugam o intrare noua pentru tabela model
+
                 $sql = "INSERT INTO model (`autoId`, `name`, `description`, `releaseYear`) VALUES (?, ?, ?, ?)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute(
@@ -57,7 +77,7 @@ class ModelController extends VanillaController
                 }
             }
         }
-
+        //daca nu avem trimis parametrul pentru marca, afisam un select cu toate marcile listate
         if (!$id || !is_numeric($id)) {
             $sql = "SELECT * FROM auto ORDER BY name ASC";
             $stmt = $this->db->prepare($sql);
@@ -71,6 +91,15 @@ class ModelController extends VanillaController
         $this->set('carId', $value);
     }
 
+    /**
+     * metoda pentru verificarea datelor inainte de ediatare si adaugare, verificare doar pentru campurile care sunt
+     * obligatorii
+     *
+     * @todo mutare metoda in clasa BdController, si rescriere unde este cazul
+     * @param array $data datele care trebuiesc validate primite prin POST
+     * @param array $columns coloanele care trebuiesc validate
+     * @return array returneaza un vector multidimensional cu erori
+     */
     private function validateData($data, $columns)
     {
         $errors = array();
@@ -82,6 +111,12 @@ class ModelController extends VanillaController
         return $errors;
     }
 
+    /**
+     * listare tuturor modelor din baza de date(tabela model), daca avem parametru id - ul marcii listam doar
+     * modelele pentru marca respectiva
+     *
+     * @param int $id
+     */
     public function listModels($id = null)
     {
         if (!($id && is_numeric($id))) {
@@ -106,20 +141,29 @@ class ModelController extends VanillaController
         $this->set('data', $result);
     }
 
+    /**
+     * editare unei inregistrari din tabela model
+     *
+     * @param int $id
+     */
     public function edit($id)
     {
         if (!is_numeric($id)) {
             $this->redirect('model/listModels');
         } else {
+            //setam idul inregistrarii pentru vizualizare
             $this->set('id', $id);
 
 
             if (isset($_POST['add'])) {
+                //daca a fost trimisa cererea de editare, validam datele introduse
                 $result = $this->validateData($_POST, $this->editValidateFields);
                 if (count($result)) {
+                    //daca sunt erori incarcam formularul cu datele completate si afisam erorile
                     $this->set('errors', $result);
                     $this->set('data', $_POST);
                 } else {
+                    //facem update inregistrarii existente
                     $sql = "UPDATE engine SET "
                         . "name = ?, description = ?, releaseYear = ? "
                         . "WHERE id = ?;";
@@ -136,6 +180,7 @@ class ModelController extends VanillaController
                     }
                 }
             } else {
+                //daca nu este trimisa cererea de POST incarcam in formular inregistrarea curenta
                 $sql = "SELECT * FROM model WHERE id = ?";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute(array($id));
@@ -145,6 +190,11 @@ class ModelController extends VanillaController
         }
     }
 
+    /**
+     * listarea masinilor pentru un model
+     *
+     * @param int $id
+     */
     public function listAuto($id)
     {
         if (!($id && is_numeric($id))) {

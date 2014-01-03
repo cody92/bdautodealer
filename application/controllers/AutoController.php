@@ -1,11 +1,11 @@
 <?php
 
-class AutoController extends VanillaController
+class AutoController extends BdController
 {
 
     /**
      *
-     * @var array variabila pentru campurile care trebuiesc verificare in formularul de adaugare/editare masina
+     * @var array variabila pentru campurile care trebuiesc verificate in formularul de adaugare/editare masina
      */
     private $addValidateFields = array(
         'engineId' => 'Motorizare',
@@ -90,10 +90,13 @@ class AutoController extends VanillaController
     }
 
     /**
-     * pagina pentru editare intrare din tabela auto_version
+     * metoda pentru verificarea datelor inainte de ediatare si adaugare, verificare doar pentru campurile care sunt
+     * obligatorii
      *
-     * @param id $id id-ul intrarii din tabela auto_version
-     * @return int
+     * @todo mutare metoda in clasa BdController, si rescriere unde este cazul
+     * @param array $data datele care trebuiesc validate primite prin POST
+     * @param array $columns coloanele care trebuiesc validate
+     * @return array returneaza un vector multidimensional cu erori
      */
     public function edit($id = null)
     {

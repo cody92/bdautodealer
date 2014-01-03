@@ -1,6 +1,6 @@
 <?php
 
-class CarController extends VanillaController
+class CarController extends BdController
 {
 
     private $addValidateFields = array(

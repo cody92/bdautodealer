@@ -1,6 +1,6 @@
 <?php
 
-class EngineController extends VanillaController
+class EngineController extends BdController
 {
 
     const GPL = 1;

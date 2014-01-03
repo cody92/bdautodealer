@@ -1,6 +1,6 @@
 <?php
 
-class DashboardController extends VanillaController
+class DashboardController extends BdController
 {
 
     public static $dashboardItems = array(
