@@ -9,6 +9,12 @@ class Template
     protected $layoutName = 'layout';
     protected $title = 'BD Auto Dealer';
 
+    /**
+     * constructor pentru template
+     *
+     * @param string $controller
+     * @param string $action
+     */
     function __construct($controller, $action)
     {
         $this->_controller = $controller;

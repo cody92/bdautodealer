@@ -55,33 +55,18 @@ function performAction($controller, $action, $queryString = null, $render = 0)
     return call_user_func_array(array($dispatch, $action), $queryString);
 }
 
-/** Routing * */
-function routeURL($url)
-{
-    global $routing;
-
-    foreach ($routing as $pattern => $result) {
-        if (preg_match($pattern, $url)) {
-            return preg_replace($pattern, $result, $url);
-        }
-    }
-
-    return ($url);
-}
-
 /** Main Call Function * */
 function callHook()
 {
     global $url;
-    global $default;
 
     $queryString = array();
 
-    if (!isset($url)) {
+    if (!isset($url) || empty($url)) {
         $controller = 'dashboard';
         $action = 'index';
     } else {
-        $url = routeURL($url);
+
         $urlArray = array();
         $urlArray = explode("/", $url);
         $controller = $urlArray[0];
@@ -90,7 +75,7 @@ function callHook()
             $action = $urlArray[0];
             array_shift($urlArray);
         } else {
-            $action = $default['action']; // Default Action
+            $action = 'index'; // Default Action
         }
         $queryString = $urlArray;
     }
@@ -141,10 +126,6 @@ function gzipOutput()
 
 /** Get Required Files * */
 gzipOutput() || ob_start("ob_gzhandler");
-
-
-$cache = new Cache();
-$inflect = new Inflection();
 
 setReporting();
 removeMagicQuotes();
