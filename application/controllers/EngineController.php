@@ -9,6 +9,10 @@ class EngineController extends BdController
     const HYBRID = 4;
     const ELECTRIC = 5;
 
+    /**
+     *
+     * @var array variabila pentru campurile care trebuiesc verificate in formularul de adaugare/editare masina
+     */
     protected $addValidateFields = array(
         'name' => 'Nume motorizare',
         'type' => 'Tip motorizare',
@@ -35,15 +39,25 @@ class EngineController extends BdController
 
     }
 
+    /**
+     * formulat adaugare motorizare noua, primeste ca parametru marca
+     *
+     * @param int $id
+     */
     public function add($id = null)
     {
-
+        //verificam daca a fost trimisa cererea de post pentru adaugare intrare noua
         if (isset($_POST['add'])) {
+            //validam datele primite prin POST
             $result = $this->validateData($_POST, $this->addValidateFields);
+
+            //verificam daca sunt erori
             if (count($result)) {
+                //adaugam erorile in vizualizare, si setam datele trimise prin POST
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
             } else {
+                //daca nu au fost erori adaugam o intrare noua pentru tabela engine
                 $sql = "INSERT INTO engine (`type`, `capacity`, `name`, `horsePower`, `fuelAverage`, "
                     . "`fuelUrban`, `fuelExtra`, `autoId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $this->db->prepare($sql);
@@ -74,6 +88,11 @@ class EngineController extends BdController
         $this->set('types', $this->listEngineType());
     }
 
+    /**
+     * formular editare intrare tabela engine, primeste ca parametru idul motorizarii
+     *
+     * @param int $id
+     */
     public function edit($id = null)
     {
         if (!is_numeric($id)) {
@@ -122,6 +141,15 @@ class EngineController extends BdController
         }
     }
 
+    /**
+     * metoda pentru verificarea datelor inainte de ediatare si adaugare, verificare doar pentru campurile care sunt
+     * obligatorii
+     *
+     * @todo mutare metoda in clasa BdController, si rescriere unde este cazul
+     * @param array $data datele care trebuiesc validate primite prin POST
+     * @param array $columns coloanele care trebuiesc validate
+     * @return array returneaza un vector multidimensional cu erori
+     */
     private function validateData($data, $columns)
     {
         $errors = array();
@@ -133,6 +161,10 @@ class EngineController extends BdController
         return $errors;
     }
 
+    /**
+     * listare motorizari
+     *
+     */
     public function listEngine()
     {
         $sql = "SELECT en. *, au.name as autoName "
@@ -149,6 +181,10 @@ class EngineController extends BdController
         $this->set('type', $this->listEngineType());
     }
 
+    /**
+     *
+     * @return array vector cu tipurile de motorizari
+     */
     public static function listEngineType()
     {
         return array(
