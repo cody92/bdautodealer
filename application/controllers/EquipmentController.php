@@ -3,6 +3,10 @@
 class EquipmentController extends BdController
 {
 
+    /**
+     *
+     * @var array variabila pentru campurile care trebuiesc verificate in formularul de adaugare/editare masina
+     */
     private $addValidateFields = array(
         'name' => 'Nume echipament',
         'description' => 'Descriere echipament',
@@ -23,7 +27,12 @@ class EquipmentController extends BdController
 
     }
 
-    public function add($id = null)
+    /**
+     * formulat adaugare echipament
+     *
+     * @param int $id
+     */
+    public function add()
     {
         //logo upload is not implemented yet
         if (isset($_POST['add'])) {
@@ -49,6 +58,15 @@ class EquipmentController extends BdController
         }
     }
 
+    /**
+     * metoda pentru verificarea datelor inainte de ediatare si adaugare, verificare doar pentru campurile care sunt
+     * obligatorii
+     *
+     * @todo mutare metoda in clasa BdController, si rescriere unde este cazul
+     * @param array $data datele care trebuiesc validate primite prin POST
+     * @param array $columns coloanele care trebuiesc validate
+     * @return array returneaza un vector multidimensional cu erori
+     */
     private function validateData($data, $columns)
     {
         $errors = array();
@@ -60,6 +78,11 @@ class EquipmentController extends BdController
         return $errors;
     }
 
+    /**
+     * formular editare intrare tabela equipment, primeste ca parametru idul optiunii
+     *
+     * @param int $id
+     */
     public function edit($id = null)
     {
         if (!is_numeric($id)) {
@@ -99,6 +122,9 @@ class EquipmentController extends BdController
         }
     }
 
+    /**
+     * pagina listare optiuni
+     */
     public function listEquipment()
     {
         $sql = "SELECT * FROM equipments ORDER BY name ASC";
