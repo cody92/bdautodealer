@@ -57,9 +57,13 @@ class ModelEquipmentController extends VanillaController
             }
         } else {
 
-            $sql = "SELECT * FROM equipments ORDER BY name ASC";
+            $sql = "SELECT e.* "
+                . "FROM equipments AS e "
+                . "WHERE e.id NOT IN "
+                . "(SELECT equipmentId FROM equipmentoptions WHERE modelId = ?) "
+                . "ORDER BY e.name ASC";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute();
+            $stmt->execute(array($id));
             $result = $stmt->fetchAll();
             $this->set('equipments', $result);
 
@@ -140,6 +144,7 @@ class ModelEquipmentController extends VanillaController
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $this->set('data', $result);
+        $this->set('model', $id);
     }
 
 }

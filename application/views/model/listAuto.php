@@ -6,9 +6,9 @@
         <table class="table table-striped table-bordered bootstrap-datatable datatable">
             <thead>
                 <tr>
-                    <th>Nume Masina</th>
-                    <th>Descriere Masina</th>
-                    <th>Nume Marca</th>
+                    <th>Detalii Masina</th>
+                    <th>Detalii Tehnice</th>
+                    <th>Pret</th>
                     <th></th>
 
                 </tr>
@@ -16,22 +16,50 @@
             <tbody>
                 <?php foreach ($data as $id => $auto) : ?>
                     <tr>
-                        <td><?php echo $auto['name']; ?></td>
-                        <td class="center"><?php echo $auto['weight']; ?></td>
-                        <td class="center"><?php echo $auto['doorsNumber']; ?></td>
+                        <td class="center">
+                            <?php echo $auto['aName'] . " " . $auto['mName'] . " " . $auto['name']; ?>
+                            <br />
+                            <?php echo $auto['seatsNumber']; ?> locuri
+                            <br />
+                            <?php echo $auto['doorsNumber']; ?> usi
+
+
+                        </td>
+                        <td class="center">
+                            <b>Motorizare:</b> <?php echo $auto['eName']; ?>
+                            <br />
+                            <b>Tip motorizare:</b> <?php echo EngineController::listEngineType()[$auto['eType']]; ?>
+                            <br />
+                            <b>Capacitate motor:</b> <?php echo $auto['eCapacity']; ?>
+                            <br />
+                            <b>Putere motor:</b> <?php echo $auto['eHorsePower']; ?> kW
+                            <br />
+                            <b>Consum:</b>
+                            <br />
+                            <?php echo $auto['eFuelUrban']; ?> urban
+                            <br />
+                            <?php echo $auto['eFuelExtra']; ?> extra-urban
+                            <br />
+                            <?php echo $auto['eFuelAverage']; ?> mediu
+                            <br />
+                            <b>Greutate: </b> <?php echo $auto['weight']; ?> kg
+
+
+                        </td>
+                        <td class="center"><?php echo $auto['price']; ?></td>
                         <td class="center">
                             <a class="btn-mini btn-danger" href="/auto/edit/<?php echo $auto['id']; ?>">
-                                <i class="icon-edit icon-white"></i>
+
                                 Editeaza masina
                             </a>
                             <br />
                             <a class="btn-mini btn-success" href="/auto/addEquipment/<?php echo $auto['id']; ?>">
-                                <i class="icon-edit icon-white"></i>
+
                                 Adauga echipament
                             </a>
                             <br />
                             <a class="btn-mini btn-success" href="/auto/listEquipment/<?php echo $auto['id']; ?>">
-                                <i class="icon-edit icon-white"></i>
+
                                 Lista echipament
                             </a>
                         </td>

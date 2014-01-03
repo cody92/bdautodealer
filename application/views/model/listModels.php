@@ -37,12 +37,12 @@
                                 Lista masini
                             </a>
 
-                            <a class="btn-mini btn-danger" href="/equipment/add/<?php echo $auto['id']; ?>">
+                            <a class="btn-mini btn-danger" href="/modelEquipment/add/<?php echo $auto['id']; ?>">
 
                                 Adauga optiune
                             </a>
                             <br />
-                            <a class="btn-mini btn-danger" href="/equipment/listEquipment/<?php echo $auto['id']; ?>">
+                            <a class="btn-mini btn-danger" href="/modelEquipment/listEquipment/<?php echo $auto['id']; ?>">
 
                                 Lista optiune
                             </a>

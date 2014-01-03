@@ -151,11 +151,19 @@ class ModelController extends VanillaController
             $this->redirect('dashboard/index');
         }
 
-        $sql = "SELECT av.* "
+        $sql = "SELECT av.*, m.name AS mName, m.description AS mDescription, "
+            . "e.type AS eType, e.capacity AS eCapacity, e.name AS eName, "
+            . "e.horsePower AS eHorsePower, ROUND(e.fuelAverage, 2) AS eFuelAverage, "
+            . "ROUND(e.fuelUrban, 2) AS eFuelUrban, ROUND(e.fuelExtra, 2) AS eFuelExtra, "
+            . "a.name AS aName "
             . "FROM auto_version AS av "
             . "INNER JOIN model AS m ON av.modelId = m.id "
-            . "WHERE av.modelId = ?"
+            . "INNER JOIN auto AS a ON m.autoId = a.id "
+            . "INNER JOIN engine AS e ON av.engineId = e.id "
+            . "WHERE av.modelId = ? "
             . "ORDER BY av.name ASC";
+
+
         $stmt = $this->db->prepare($sql);
 
         $stmt->execute(array($id));

@@ -2,7 +2,14 @@
     <div class="box-header well" data-original-title>
         <h2>Lista echipamente auto</h2>
     </div>
+    <div style="text-align: center">
+        <a class="btn btn-success" href="/modelEquipment/add/<?php echo $model; ?>">
+            <i class="icon-add icon-white"></i>
+            Adauga echipament
+        </a>
+    </div>
     <div class="box-content">
+
         <table class="table table-striped table-bordered bootstrap-datatable datatable">
             <thead>
                 <tr>

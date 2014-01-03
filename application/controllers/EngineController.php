@@ -149,7 +149,7 @@ class EngineController extends VanillaController
         $this->set('type', $this->listEngineType());
     }
 
-    public function listEngineType()
+    public static function listEngineType()
     {
         return array(
             self::GPL => 'GPL',
