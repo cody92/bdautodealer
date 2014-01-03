@@ -46,7 +46,11 @@
 
 
                         </td>
-                        <td class="center"><?php echo $auto['price']; ?></td>
+                        <td class="center">
+                            Pret baza: <?php echo $auto['price']; ?>
+                            <br />
+                            Pret optiuni: <?php echo $auto['optionsPrice'] ? $auto['optionsPrice'] : 0; ?>
+                        </td>
                         <td class="center">
                             <a class="btn-mini btn-danger" href="/auto/edit/<?php echo $auto['id']; ?>">
 
