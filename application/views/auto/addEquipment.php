@@ -16,7 +16,7 @@
                                 <?php
                                 foreach ($equipments as $equip) :
                                     ?>
-                                    <option value="<?php echo $equip['id']; ?>"><?php echo $equip['value']; ?></option>
+                                    <option value="<?php echo $equip['id']; ?>"><?php echo $equip['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
