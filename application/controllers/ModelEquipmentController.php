@@ -3,12 +3,21 @@
 class ModelEquipmentController extends BdController
 {
 
+    /**
+     *
+     * @var array variabila pentru campurile care trebuiesc verificate in formularul de adaugare masina
+     */
     private $addValidateFields = array(
         'equipmentId' => 'Nume optiune',
         'modelId' => 'Model',
         'price' => 'Pret',
         'value' => 'Optiune',
     );
+
+    /**
+     *
+     * @var array variabila pentru campurile care trebuiesc verificate in formularul de editare masina
+     */
     private $editValidateFields = array(
         'price' => 'Pret',
         'value' => 'Optiune',
@@ -29,6 +38,12 @@ class ModelEquipmentController extends BdController
 
     }
 
+    /**
+     * formular adaugare optiuni posibile pentru un model de masina, primeste ca parametru idul modelul masinii
+     *
+     * @param int $id
+     * @return int
+     */
     public function add($id = null)
     {
         if (!($id && is_numeric($id))) {
@@ -71,6 +86,15 @@ class ModelEquipmentController extends BdController
         }
     }
 
+    /**
+     * metoda pentru verificarea datelor inainte de ediatare si adaugare, verificare doar pentru campurile care sunt
+     * obligatorii
+     *
+     * @todo mutare metoda in clasa BdController, si rescriere unde este cazul
+     * @param array $data datele care trebuiesc validate primite prin POST
+     * @param array $columns coloanele care trebuiesc validate
+     * @return array returneaza un vector multidimensional cu erori
+     */
     private function validateData($data, $columns)
     {
         $errors = array();
@@ -82,6 +106,11 @@ class ModelEquipmentController extends BdController
         return $errors;
     }
 
+    /**
+     * formular editare intrare tabela equipmentoptions
+     *
+     * @param int $id
+     */
     public function edit($id)
     {
         if (!is_numeric($id)) {
@@ -121,6 +150,12 @@ class ModelEquipmentController extends BdController
         }
     }
 
+    /**
+     * pagina listare optiuni pentru model, primeste ca parametru id ul modelului
+     *
+     * @param int $id
+     * @return int
+     */
     public function listEquipment($id = null)
     {
         if (!($id && is_numeric($id))) {
