@@ -3,6 +3,10 @@
 class DashboardController extends BdController
 {
 
+    /**
+     *
+     * @var array itemi pentru pagina principala si pentru meniu
+     */
     public static $dashboardItems = array(
         array(
             'css-icon' => 'icon-square-plus',
@@ -59,14 +63,9 @@ class DashboardController extends BdController
 
     }
 
-    public function view($categoryId = null)
-    {
-
-    }
-
     public function index()
     {
-
+        // generam pagina principala
         $this->set('items', self::$dashboardItems);
     }
 
