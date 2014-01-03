@@ -53,7 +53,7 @@ class AutoController extends BdController
 
             //verificam daca sunt erori
             if (count($result)) {
-                //adaugam erorile in vizualizare, si setam datele trimise la POST
+                //adaugam erorile in vizualizare, si setam datele trimise prin POST
                 $this->set('errors', $result);
                 $this->set('data', $_POST);
             } else {
